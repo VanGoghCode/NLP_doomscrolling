@@ -227,6 +227,29 @@ Assessment results are analyzed to generate:
 |---------|----------|-------------|
 | Write entries with mood | Trend analysis | Emotion & trigger detection |
 
+## 🏗️ Architecture Diagrams
+
+### System Overview
+![System Overview](docs/diagrams/System%20Overview.png)
+
+### Data Flow Architecture
+![Data Flow Architecture](docs/diagrams/Data%20Flow%20Architecture.png)
+
+### Component Architecture
+![Component Architecture](docs/diagrams/Component%20Architecture.png)
+
+### API Architecture
+![API Architecture](docs/diagrams/API%20Architecture.png)
+
+### Assessment Scoring Flow
+![Assessment Scoring Flow](docs/diagrams/Assessment%20Scoring%20Flow.png)
+
+### Journal NLP Pipeline
+![Journal NLP Pipeline](docs/diagrams/Journal%20NLP%20Pipeline.png)
+
+### Tech Stack Layers
+![Tech Stack Layers](docs/diagrams/Tech%20Stack%20Layers.png)
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
