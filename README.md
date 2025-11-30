@@ -2,7 +2,7 @@
 
 A full-stack web application that helps people understand and reduce their doomscrolling behavior, powered by research data from "The Dark at the End of the Tunnel" study (n=401 participants) and AI-powered insights using Google Gemini.
 
-🔗 **Live Demo**: [Your Vercel URL]
+🔗 **Live Demo**: [Live Demo Here](https://nlp-doomscrolling.vercel.app/)
 
 ## ✨ Features
 
@@ -250,21 +250,9 @@ Assessment results are analyzed to generate:
 ### Tech Stack Layers
 ![Tech Stack Layers](docs/diagrams/Tech%20Stack%20Layers.png)
 
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-MIT License - feel free to use this for your own projects!
-
 ## 🙏 Acknowledgments
 
 - Research data from "The Dark at the End of the Tunnel" doomscrolling study
 - Google Gemini API for AI-powered analysis
 - HeroUI for beautiful components
 - The open-source community
-
----
-
-**Built with ❤️ to help people take control of their digital lives.**
