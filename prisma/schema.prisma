@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  assessments AssessmentResult[]
+  sessionLogs SessionLog[]
+}
+
+model AssessmentResult {
+  id        String   @id @default(cuid())
+  userId    String?  // Optional for anonymous users
+  user      User?    @relation(fields: [userId], references: [id])
+  
+  // Scores for each dimension
+  frequencyScore      Float
+  controlScore        Float
+  emotionalScore      Float
+  timeScore           Float
+  compulsiveScore     Float
+  awarenessScore      Float
+  interferenceScore   Float
+  copingScore         Float
+  
+  totalScore          Float
+  severityLevel       String // "low", "moderate", "high", "severe"
+  
+  responses           String // JSON string of question responses
+  
+  createdAt DateTime @default(now())
+}
+
+model SessionLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  
+  duration  Int      // in minutes
+  platform  String?
+  moodBefore Int     // 1-10 scale
+  moodAfter  Int     // 1-10 scale
+  notes     String?
+  
+  startedAt DateTime @default(now())
+}
