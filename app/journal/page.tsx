@@ -222,27 +222,6 @@ export default function JournalPage() {
           {/* Write Tab */}
           {activeTab === "write" && (
             <div className="space-y-8">
-              {/* Writing Prompt */}
-              <div className="bg-amber-50 rounded-xl p-5 border border-amber-200">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-amber-800 mb-1 flex items-center gap-2">
-                      <span>💡</span>
-                      Writing Prompt
-                    </p>
-                    <p className="text-amber-700">{writingPrompt}</p>
-                  </div>
-                  <Button
-                    isIconOnly
-                    size="sm"
-                    variant="light"
-                    onPress={refreshPrompt}
-                    className="text-amber-600 hover:bg-amber-100"
-                  >
-                    <Icon name="RefreshCw" className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
 
               {/* Entry Form */}
               <div className="bg-white rounded-xl border border-stone-200 p-8">

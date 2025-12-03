@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ASSESSMENT_QUESTIONS, DIMENSION_LABELS } from "@/lib/assessment/questions";
+import { ASSESSMENT_QUESTIONS, DIMENSION_LABELS, CONSTRUCT_LABELS } from "@/lib/assessment/questions";
 import { LikertScale } from "./LikertScale";
 import { AssessmentResponse } from "@/lib/assessment/scoring";
 import { Progress, Card, CardBody, Button } from "@heroui/react";
@@ -102,21 +102,13 @@ export function AssessmentForm({ onComplete }: AssessmentFormProps) {
           >
             <Card className="bg-white border border-stone-200 shadow-soft rounded-3xl overflow-visible">
               <CardBody className="p-8 md:p-12">
-                {/* Category Label */}
-                {currentQuestion.dimension && DIMENSION_LABELS[currentQuestion.dimension] && (
+                {/* Construct Label (8 categories) */}
+                {currentQuestion.construct && CONSTRUCT_LABELS[currentQuestion.construct] && (
                   <div className="mb-6">
                     <span 
-                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider"
-                      style={{ 
-                        backgroundColor: `${DIMENSION_LABELS[currentQuestion.dimension].color}15`,
-                        color: DIMENSION_LABELS[currentQuestion.dimension].color 
-                      }}
+                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-primary/10 text-primary"
                     >
-                      <Icon 
-                        name={DIMENSION_LABELS[currentQuestion.dimension].icon as any} 
-                        className="w-3.5 h-3.5" 
-                      />
-                      {DIMENSION_LABELS[currentQuestion.dimension].shortLabel}
+                      {CONSTRUCT_LABELS[currentQuestion.construct]}
                     </span>
                   </div>
                 )}
