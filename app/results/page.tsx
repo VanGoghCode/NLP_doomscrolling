@@ -171,19 +171,19 @@ export default function ResultsPage() {
       <Header variant="floating" />
 
       {/* Main content */}
-      <main className="flex-grow max-w-5xl mx-auto px-4 pt-32 pb-12 w-full">
+      <main className="flex-grow max-w-5xl mx-auto px-3 sm:px-4 pt-24 sm:pt-32 pb-8 sm:pb-12 w-full">
         {/* Results header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-black text-stone-900 mb-4 tracking-tight">
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-stone-900 mb-3 sm:mb-4 tracking-tight">
             Your Reality Check
           </h1>
-          <p className="text-stone-500">
+          <p className="text-stone-500 text-sm sm:text-base">
             Completed on {results.completedAt.toLocaleDateString()}
           </p>
         </div>
 
         {/* Tab navigation */}
-        <div className="flex justify-center mb-10">
+        <div className="flex justify-center mb-6 sm:mb-10 overflow-x-auto pb-2">
           <Tabs
             aria-label="Result Sections"
             color="primary"
@@ -192,9 +192,9 @@ export default function ResultsPage() {
             onSelectionChange={(key) => setActiveTab(key as any)}
             classNames={{
               tabList:
-                "gap-6 border-b border-stone-200 w-full justify-center p-0",
+                "gap-2 sm:gap-6 border-b border-stone-200 w-full justify-start sm:justify-center p-0 min-w-max",
               cursor: "w-full bg-primary h-1",
-              tab: "max-w-fit px-3 h-12 text-stone-500 font-medium",
+              tab: "max-w-fit px-2 sm:px-3 h-10 sm:h-12 text-stone-500 font-medium text-xs sm:text-sm",
               tabContent:
                 "group-data-[selected=true]:text-primary group-data-[selected=true]:font-bold",
             }}
@@ -202,13 +202,14 @@ export default function ResultsPage() {
             <Tab key="overview" title="Overview" />
             <Tab key="dimensions" title="Dimensions" />
             <Tab key="predictions" title="Predictions" />
-            <Tab key="recommendations" title="Action Plan" />
+            <Tab key="recommendations" title={<span className="hidden sm:inline">Action Plan</span>} />
             <Tab 
               key="ai-coach" 
               title={
-                <span className="flex items-center gap-1.5">
-                  <Icon name="Sparkles" className="w-4 h-4" />
-                  AI Coach
+                <span className="flex items-center gap-1 sm:gap-1.5">
+                  <Icon name="Sparkles" className="w-3 h-3 sm:w-4 sm:h-4" />
+                  <span className="hidden sm:inline">AI Coach</span>
+                  <span className="sm:hidden">AI</span>
                 </span>
               } 
             />
@@ -217,24 +218,26 @@ export default function ResultsPage() {
 
         {/* Overview Tab */}
         {activeTab === "overview" && (
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
             {/* Overall score */}
-            <div className="bg-white rounded-3xl p-8 border border-stone-200 shadow-sm">
-              <h3 className="text-lg font-bold text-stone-900 mb-8 text-center uppercase tracking-wider">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-stone-200 shadow-sm">
+              <h3 className="text-base sm:text-lg font-bold text-stone-900 mb-4 sm:mb-8 text-center uppercase tracking-wider">
                 Doomscrolling Severity
               </h3>
               <ScoreGauge score={results.overallScore} />
-              <p className="text-center text-stone-600 mt-6 font-medium">
+              <p className="text-center text-stone-600 mt-4 sm:mt-6 font-medium text-sm sm:text-base">
                 {results.overallSeverity.description}
               </p>
             </div>
 
             {/* Radar chart */}
-            <div className="bg-white rounded-3xl p-8 border border-stone-200 shadow-sm">
-              <h3 className="text-lg font-bold text-stone-900 mb-8 text-center uppercase tracking-wider">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-stone-200 shadow-sm">
+              <h3 className="text-base sm:text-lg font-bold text-stone-900 mb-4 sm:mb-8 text-center uppercase tracking-wider">
                 Your Pattern
               </h3>
-              <RadarChart dimensionScores={results.dimensionScores} />
+              <div className="flex justify-center">
+                <RadarChart dimensionScores={results.dimensionScores} size={280} />
+              </div>
             </div>
 
             {/* Comparison */}
@@ -247,21 +250,21 @@ export default function ResultsPage() {
 
             {/* Top concerns */}
             {results.topConcerns.length > 0 && (
-              <div className="md:col-span-2 bg-primary/5 rounded-3xl p-8 border border-primary/10">
-                <h3 className="text-lg font-bold text-primary mb-6 flex items-center gap-2 uppercase tracking-wider">
-                  <Icon name="Target" className="w-5 h-5" />
+              <div className="md:col-span-2 bg-primary/5 rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-primary/10">
+                <h3 className="text-base sm:text-lg font-bold text-primary mb-4 sm:mb-6 flex items-center gap-2 uppercase tracking-wider">
+                  <Icon name="Target" className="w-4 h-4 sm:w-5 sm:h-5" />
                   Critical Areas
                 </h3>
-                <div className="grid md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                   {results.topConcerns.map((concern) => (
                     <div
                       key={concern.dimensionId}
-                      className="bg-white rounded-xl p-6 border border-primary/20 shadow-sm"
+                      className="bg-white rounded-xl p-4 sm:p-6 border border-primary/20 shadow-sm"
                     >
-                      <h4 className="font-bold text-stone-900 text-lg mb-2">
+                      <h4 className="font-bold text-stone-900 text-base sm:text-lg mb-2">
                         {concern.name}
                       </h4>
-                      <div className="flex items-center gap-2 text-primary font-medium">
+                      <div className="flex items-center gap-2 text-primary font-medium text-sm sm:text-base">
                         <span>Score: {concern.score.toFixed(1)}/7</span>
                       </div>
                       <span className="inline-block mt-2 px-2 py-1 bg-primary/10 text-primary text-xs font-bold rounded uppercase">
@@ -277,8 +280,8 @@ export default function ResultsPage() {
 
         {/* Dimensions Tab */}
         {activeTab === "dimensions" && (
-          <div className="max-w-3xl mx-auto">
-            <h3 className="text-2xl font-bold text-stone-900 mb-8">
+          <div className="max-w-3xl mx-auto px-0 sm:px-4">
+            <h3 className="text-xl sm:text-2xl font-bold text-stone-900 mb-6 sm:mb-8">
               Detailed Breakdown
             </h3>
             <DimensionBreakdown
@@ -292,34 +295,34 @@ export default function ResultsPage() {
         {activeTab === "predictions" && predictions && (
           <div className="max-w-4xl mx-auto">
             {/* Risk Score Header */}
-            <div className="bg-gradient-to-br from-stone-900 to-stone-800 rounded-3xl p-8 mb-8 text-white relative overflow-hidden">
+            <div className="bg-gradient-to-br from-stone-900 to-stone-800 rounded-2xl sm:rounded-3xl p-4 sm:p-8 mb-6 sm:mb-8 text-white relative overflow-hidden">
               <div className="absolute inset-0 bg-texture-diagonal opacity-50"></div>
               <div className="relative z-10">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="flex flex-col items-center text-center md:flex-row md:text-left md:justify-between gap-4 sm:gap-6">
                   <div>
-                    <p className="text-stone-400 uppercase tracking-wider text-sm font-medium mb-2">
+                    <p className="text-stone-400 uppercase tracking-wider text-xs sm:text-sm font-medium mb-1 sm:mb-2">
                       Predictive Risk Assessment
                     </p>
-                    <h3 className="text-3xl font-black mb-2">
+                    <h3 className="text-2xl sm:text-3xl font-black mb-1 sm:mb-2">
                       {getRiskLevelLabel(predictions.riskLevel).label}
                     </h3>
-                    <p className="text-stone-300">
+                    <p className="text-stone-300 text-sm sm:text-base">
                       {getRiskLevelLabel(predictions.riskLevel).description}
                     </p>
                   </div>
                   <div className="text-center">
                     <div 
-                      className="text-6xl font-black"
+                      className="text-5xl sm:text-6xl font-black"
                       style={{ color: getRiskLevelLabel(predictions.riskLevel).color }}
                     >
                       {predictions.riskScore}
                     </div>
-                    <p className="text-stone-400 text-sm">Risk Score</p>
+                    <p className="text-stone-400 text-xs sm:text-sm">Risk Score</p>
                   </div>
                 </div>
                 
                 {/* Progress bar */}
-                <div className="mt-6">
+                <div className="mt-4 sm:mt-6">
                   <Progress 
                     value={predictions.riskScore} 
                     maxValue={100}
@@ -338,16 +341,16 @@ export default function ResultsPage() {
             </div>
 
             {/* Comparison to Research Sample */}
-            <div className="bg-primary/5 rounded-2xl p-6 mb-8 border border-primary/10">
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
-                  <span className="text-2xl font-black text-primary">
+            <div className="bg-primary/5 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 border border-primary/10">
+              <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 text-center sm:text-left">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                  <span className="text-xl sm:text-2xl font-black text-primary">
                     {predictions.comparisonToSample.percentile}%
                   </span>
                 </div>
                 <div>
-                  <h4 className="font-bold text-stone-900">Your Percentile (n=401)</h4>
-                  <p className="text-stone-600 text-sm">
+                  <h4 className="font-bold text-stone-900 text-sm sm:text-base">Your Percentile (n=401)</h4>
+                  <p className="text-stone-600 text-xs sm:text-sm">
                     {predictions.comparisonToSample.description}
                   </p>
                 </div>
@@ -355,29 +358,29 @@ export default function ResultsPage() {
             </div>
 
             {/* Weekly Time Estimate */}
-            <div className="bg-amber-50 rounded-2xl p-6 mb-8 border border-amber-200">
-              <div className="flex items-center gap-4">
-                <Icon name="Clock" className="w-10 h-10 text-amber-600" />
+            <div className="bg-amber-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 border border-amber-200">
+              <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 text-center sm:text-left">
+                <Icon name="Clock" className="w-8 h-8 sm:w-10 sm:h-10 text-amber-600" />
                 <div>
-                  <h4 className="font-bold text-stone-900">Estimated Weekly Scrolling Time</h4>
-                  <p className="text-2xl font-black text-amber-600">
+                  <h4 className="font-bold text-stone-900 text-sm sm:text-base">Estimated Weekly Scrolling Time</h4>
+                  <p className="text-xl sm:text-2xl font-black text-amber-600">
                     {predictions.weeklyTimeEstimate.min}–{predictions.weeklyTimeEstimate.max} hours
                   </p>
-                  <p className="text-stone-500 text-sm">Based on your frequency and time distortion scores</p>
+                  <p className="text-stone-500 text-xs sm:text-sm">Based on your frequency and time distortion scores</p>
                 </div>
               </div>
             </div>
 
             {/* Predictions Grid */}
-            <h4 className="text-xl font-bold text-stone-900 mb-4 flex items-center gap-2">
-              <Icon name="Activity" className="w-5 h-5 text-primary" />
+            <h4 className="text-lg sm:text-xl font-bold text-stone-900 mb-3 sm:mb-4 flex items-center gap-2">
+              <Icon name="Activity" className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
               Predictive Insights
             </h4>
-            <div className="grid md:grid-cols-2 gap-4 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
               {predictions.predictions.map((prediction) => (
                 <div 
                   key={prediction.id}
-                  className={`rounded-2xl p-6 border ${
+                  className={`rounded-xl sm:rounded-2xl p-4 sm:p-6 border ${
                     prediction.category === 'positive' 
                       ? 'bg-green-50 border-green-200' 
                       : prediction.severity === 'critical'
@@ -387,9 +390,9 @@ export default function ResultsPage() {
                       : 'bg-white border-stone-200'
                   }`}
                 >
-                  <div className="flex items-start justify-between mb-3">
-                    <h5 className="font-bold text-stone-900">{prediction.title}</h5>
-                    <span className={`text-sm font-bold px-2 py-1 rounded ${
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
+                    <h5 className="font-bold text-stone-900 text-sm sm:text-base">{prediction.title}</h5>
+                    <span className={`text-xs font-bold px-2 py-1 rounded w-fit ${
                       prediction.category === 'positive'
                         ? 'bg-green-100 text-green-700'
                         : prediction.severity === 'critical'
@@ -401,27 +404,27 @@ export default function ResultsPage() {
                       {prediction.probability}% likely
                     </span>
                   </div>
-                  <p className="text-stone-600 text-sm mb-4">{prediction.description}</p>
-                  <div className="bg-white/50 rounded-lg p-3 border border-stone-100">
+                  <p className="text-stone-600 text-xs sm:text-sm mb-3 sm:mb-4">{prediction.description}</p>
+                  <div className="bg-white/50 rounded-lg p-2 sm:p-3 border border-stone-100">
                     <p className="text-xs text-stone-500 uppercase tracking-wider mb-1">Recommendation</p>
-                    <p className="text-sm text-stone-700 font-medium">{prediction.recommendation}</p>
+                    <p className="text-xs sm:text-sm text-stone-700 font-medium">{prediction.recommendation}</p>
                   </div>
                 </div>
               ))}
             </div>
 
             {/* Risk & Protective Factors */}
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               {predictions.riskFactors.length > 0 && (
-                <div className="bg-red-50 rounded-2xl p-6 border border-red-100">
-                  <h5 className="font-bold text-red-800 mb-4 flex items-center gap-2">
-                    <Icon name="Target" className="w-5 h-5" />
+                <div className="bg-red-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-red-100">
+                  <h5 className="font-bold text-red-800 mb-3 sm:mb-4 flex items-center gap-2 text-sm sm:text-base">
+                    <Icon name="Target" className="w-4 h-4 sm:w-5 sm:h-5" />
                     Risk Factors
                   </h5>
                   <ul className="space-y-2">
                     {predictions.riskFactors.map((factor, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-red-700 text-sm">
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-400 mt-2 flex-shrink-0"></span>
+                      <li key={idx} className="flex items-start gap-2 text-red-700 text-xs sm:text-sm">
+                        <span className="w-1.5 h-1.5 rounded-full bg-red-400 mt-1.5 sm:mt-2 flex-shrink-0"></span>
                         {factor}
                       </li>
                     ))}
@@ -430,15 +433,15 @@ export default function ResultsPage() {
               )}
               
               {predictions.protectiveFactors.length > 0 && (
-                <div className="bg-green-50 rounded-2xl p-6 border border-green-100">
-                  <h5 className="font-bold text-green-800 mb-4 flex items-center gap-2">
-                    <Icon name="Shield" className="w-5 h-5" />
+                <div className="bg-green-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-green-100">
+                  <h5 className="font-bold text-green-800 mb-3 sm:mb-4 flex items-center gap-2 text-sm sm:text-base">
+                    <Icon name="Shield" className="w-4 h-4 sm:w-5 sm:h-5" />
                     Protective Factors
                   </h5>
                   <ul className="space-y-2">
                     {predictions.protectiveFactors.map((factor, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-green-700 text-sm">
-                        <span className="w-1.5 h-1.5 rounded-full bg-green-400 mt-2 flex-shrink-0"></span>
+                      <li key={idx} className="flex items-start gap-2 text-green-700 text-xs sm:text-sm">
+                        <span className="w-1.5 h-1.5 rounded-full bg-green-400 mt-1.5 sm:mt-2 flex-shrink-0"></span>
                         {factor}
                       </li>
                     ))}
@@ -448,7 +451,7 @@ export default function ResultsPage() {
             </div>
 
             {/* Research Note */}
-            <div className="mt-8 text-center text-stone-400 text-sm">
+            <div className="mt-6 sm:mt-8 text-center text-stone-400 text-xs sm:text-sm">
               <p>Predictions based on patterns observed in research data from 401 participants.</p>
               <p>These are probabilistic estimates, not certainties.</p>
             </div>
@@ -458,22 +461,22 @@ export default function ResultsPage() {
         {/* Recommendations Tab */}
         {activeTab === "recommendations" && (
           <div className="max-w-3xl mx-auto">
-            <h3 className="text-2xl font-bold text-stone-900 mb-8">
+            <h3 className="text-xl sm:text-2xl font-bold text-stone-900 mb-6 sm:mb-8">
               Your Recovery Plan
             </h3>
 
             {allRecommendations.length > 0 ? (
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {allRecommendations.map((rec, idx) => (
                   <div
                     key={idx}
-                    className="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm flex items-start gap-6 hover:shadow-md transition-shadow"
+                    className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-stone-200 shadow-sm flex items-start gap-3 sm:gap-6 hover:shadow-md transition-shadow"
                   >
-                    <span className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg shadow-lg shadow-primary/20">
+                    <span className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm sm:text-lg shadow-lg shadow-primary/20">
                       {idx + 1}
                     </span>
                     <div>
-                      <p className="text-stone-700 text-lg leading-relaxed font-medium">
+                      <p className="text-stone-700 text-sm sm:text-lg leading-relaxed font-medium">
                         {rec}
                       </p>
                     </div>
@@ -481,16 +484,16 @@ export default function ResultsPage() {
                 ))}
               </div>
             ) : (
-              <div className="bg-green-50 rounded-2xl p-8 text-center border border-green-100">
-                <div className="flex justify-center mb-6">
-                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-                    <Icon name="Check" className="w-8 h-8 text-green-600" />
+              <div className="bg-green-50 rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center border border-green-100">
+                <div className="flex justify-center mb-4 sm:mb-6">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-green-100 rounded-full flex items-center justify-center">
+                    <Icon name="Check" className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
                   </div>
                 </div>
-                <h4 className="font-bold text-green-800 text-xl mb-2">
+                <h4 className="font-bold text-green-800 text-lg sm:text-xl mb-2">
                   You are in control.
                 </h4>
-                <p className="text-green-700">
+                <p className="text-green-700 text-sm sm:text-base">
                   Your habits are healthy. Maintain your awareness and keep
                   living in the real world.
                 </p>
@@ -498,28 +501,28 @@ export default function ResultsPage() {
             )}
 
             {/* General tips */}
-            <div className="mt-12 bg-stone-100 rounded-3xl p-8 border border-stone-200">
-              <h4 className="font-bold text-stone-900 mb-6 flex items-center gap-2 text-lg">
-                <Icon name="Lightbulb" className="w-6 h-6 text-primary" />
+            <div className="mt-8 sm:mt-12 bg-stone-100 rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-stone-200">
+              <h4 className="font-bold text-stone-900 mb-4 sm:mb-6 flex items-center gap-2 text-base sm:text-lg">
+                <Icon name="Lightbulb" className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                 Universal Truths
               </h4>
-              <ul className="space-y-4">
+              <ul className="space-y-3 sm:space-y-4">
                 <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5"></span>
-                  <span className="text-stone-600 text-lg">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 sm:mt-2.5"></span>
+                  <span className="text-stone-600 text-sm sm:text-lg">
                     Real life happens offline. Don&apos;t miss it.
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5"></span>
-                  <span className="text-stone-600 text-lg">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 sm:mt-2.5"></span>
+                  <span className="text-stone-600 text-sm sm:text-lg">
                     Your attention is a currency. Stop spending it on things
                     that don&apos;t matter.
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5"></span>
-                  <span className="text-stone-600 text-lg">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 sm:mt-2.5"></span>
+                  <span className="text-stone-600 text-sm sm:text-lg">
                     Boredom is not the enemy. It&apos;s the birthplace of creativity.
                   </span>
                 </li>
@@ -532,15 +535,15 @@ export default function ResultsPage() {
         {activeTab === "ai-coach" && (
           <div className="max-w-4xl mx-auto">
             {/* Header */}
-            <div className="bg-gradient-to-br from-amber-500 to-orange-500 rounded-3xl p-8 mb-8 text-white relative overflow-hidden">
+            <div className="bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl sm:rounded-3xl p-4 sm:p-8 mb-6 sm:mb-8 text-white relative overflow-hidden">
               <div className="absolute inset-0 bg-texture-diagonal opacity-20"></div>
-              <div className="relative z-10 flex flex-col md:flex-row items-center gap-6">
-                <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center flex-shrink-0">
-                  <Icon name="Sparkles" className="w-10 h-10 text-white" />
+              <div className="relative z-10 flex flex-col items-center text-center md:flex-row md:text-left gap-4 sm:gap-6">
+                <div className="w-14 h-14 sm:w-20 sm:h-20 bg-white/20 rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0">
+                  <Icon name="Sparkles" className="w-7 h-7 sm:w-10 sm:h-10 text-white" />
                 </div>
-                <div className="flex-1 text-center md:text-left">
-                  <h3 className="text-2xl font-black mb-2">AI Wellness Coach</h3>
-                  <p className="text-white/80">
+                <div className="flex-1">
+                  <h3 className="text-xl sm:text-2xl font-black mb-1 sm:mb-2">AI Wellness Coach</h3>
+                  <p className="text-white/80 text-sm sm:text-base">
                     Get personalized guidance based on your unique assessment results. 
                     Our AI analyzes your patterns to create a tailored recovery plan.
                   </p>
@@ -548,8 +551,8 @@ export default function ResultsPage() {
                 {!aiSuggestions && !isLoadingAI && (
                   <Button
                     onPress={loadAISuggestions}
-                    className="bg-white text-amber-600 font-bold px-6"
-                    size="lg"
+                    className="bg-white text-amber-600 font-bold px-4 sm:px-6"
+                    size="md"
                   >
                     Get AI Suggestions
                   </Button>
@@ -559,25 +562,26 @@ export default function ResultsPage() {
 
             {/* Loading State */}
             {isLoadingAI && (
-              <div className="bg-white rounded-2xl p-12 text-center border border-stone-200">
-                <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-                <p className="text-stone-600 font-medium">Analyzing your results and creating personalized suggestions...</p>
-                <p className="text-stone-400 text-sm mt-2">This may take a few seconds</p>
+              <div className="bg-white rounded-xl sm:rounded-2xl p-8 sm:p-12 text-center border border-stone-200">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                <p className="text-stone-600 font-medium text-sm sm:text-base">Analyzing your results and creating personalized suggestions...</p>
+                <p className="text-stone-400 text-xs sm:text-sm mt-2">This may take a few seconds</p>
               </div>
             )}
 
             {/* Error State */}
             {aiError && !isLoadingAI && (
-              <div className="bg-red-50 rounded-2xl p-8 text-center border border-red-200">
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Icon name="AlertCircle" className="w-8 h-8 text-red-500" />
+              <div className="bg-red-50 rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center border border-red-200">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icon name="AlertCircle" className="w-6 h-6 sm:w-8 sm:h-8 text-red-500" />
                 </div>
-                <p className="text-red-700 font-medium mb-2">{aiError}</p>
-                <p className="text-red-500 text-sm mb-4">Make sure GEMINI_API_KEY is configured in your .env file</p>
+                <p className="text-red-700 font-medium mb-2 text-sm sm:text-base">{aiError}</p>
+                <p className="text-red-500 text-xs sm:text-sm mb-4">Make sure GEMINI_API_KEY is configured in your .env file</p>
                 <Button
                   onPress={loadAISuggestions}
                   color="danger"
                   variant="flat"
+                  size="sm"
                 >
                   Try Again
                 </Button>
@@ -586,34 +590,34 @@ export default function ResultsPage() {
 
             {/* AI Suggestions Content */}
             {aiSuggestions && !isLoadingAI && (
-              <div className="space-y-8">
+              <div className="space-y-6 sm:space-y-8">
                 {/* Personalized Message */}
-                <div className="bg-amber-50 rounded-2xl p-6 border border-amber-200">
-                  <p className="text-amber-900 text-lg leading-relaxed">
+                <div className="bg-amber-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-amber-200">
+                  <p className="text-amber-900 text-sm sm:text-lg leading-relaxed">
                     {aiSuggestions.personalizedMessage}
                   </p>
                 </div>
 
                 {/* Top Priorities */}
                 <div>
-                  <h4 className="text-xl font-bold text-stone-900 mb-4 flex items-center gap-2">
-                    <Icon name="Target" className="w-5 h-5 text-primary" />
+                  <h4 className="text-lg sm:text-xl font-bold text-stone-900 mb-3 sm:mb-4 flex items-center gap-2">
+                    <Icon name="Target" className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                     Your Top Priorities
                   </h4>
-                  <div className="space-y-4">
+                  <div className="space-y-3 sm:space-y-4">
                     {aiSuggestions.topPriorities.map((priority, idx) => (
                       <div
                         key={idx}
-                        className="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm"
+                        className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-stone-200 shadow-sm"
                       >
-                        <div className="flex items-start gap-4">
-                          <span className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
+                        <div className="flex items-start gap-3 sm:gap-4">
+                          <span className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm sm:text-lg">
                             {idx + 1}
                           </span>
-                          <div className="flex-1">
-                            <div className="flex items-center gap-3 mb-2 flex-wrap">
-                              <h5 className="font-bold text-stone-900 text-lg">{priority.title}</h5>
-                              <span className={`text-xs font-medium px-2 py-1 rounded-full ${
+                          <div className="flex-1 min-w-0">
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
+                              <h5 className="font-bold text-stone-900 text-sm sm:text-lg">{priority.title}</h5>
+                              <span className={`text-xs font-medium px-2 py-0.5 sm:py-1 rounded-full ${
                                 priority.difficulty === 'easy' ? 'bg-green-100 text-green-700' :
                                 priority.difficulty === 'moderate' ? 'bg-yellow-100 text-yellow-700' :
                                 'bg-red-100 text-red-700'
@@ -622,13 +626,13 @@ export default function ResultsPage() {
                               </span>
                               <span className="text-xs text-stone-400">{priority.timeframe}</span>
                             </div>
-                            <p className="text-stone-600 mb-4">{priority.description}</p>
-                            <div className="bg-stone-50 rounded-xl p-4">
+                            <p className="text-stone-600 text-xs sm:text-base mb-3 sm:mb-4">{priority.description}</p>
+                            <div className="bg-stone-50 rounded-lg sm:rounded-xl p-3 sm:p-4">
                               <p className="text-xs text-stone-500 uppercase tracking-wider mb-2">Action Steps</p>
-                              <ul className="space-y-2">
+                              <ul className="space-y-1.5 sm:space-y-2">
                                 {priority.actionSteps.map((step, stepIdx) => (
-                                  <li key={stepIdx} className="flex items-start gap-2 text-stone-700 text-sm">
-                                    <Icon name="Check" className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                                  <li key={stepIdx} className="flex items-start gap-2 text-stone-700 text-xs sm:text-sm">
+                                    <Icon name="Check" className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 mt-0.5 flex-shrink-0" />
                                     {step}
                                   </li>
                                 ))}
@@ -643,20 +647,20 @@ export default function ResultsPage() {
 
                 {/* Daily Habits */}
                 <div>
-                  <h4 className="text-xl font-bold text-stone-900 mb-4 flex items-center gap-2">
-                    <Icon name="Calendar" className="w-5 h-5 text-primary" />
+                  <h4 className="text-lg sm:text-xl font-bold text-stone-900 mb-3 sm:mb-4 flex items-center gap-2">
+                    <Icon name="Calendar" className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                     Daily Habits to Build
                   </h4>
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                     {aiSuggestions.dailyHabits.map((habit, idx) => (
                       <div
                         key={idx}
-                        className="bg-green-50 rounded-xl p-5 border border-green-200"
+                        className="bg-green-50 rounded-lg sm:rounded-xl p-4 sm:p-5 border border-green-200"
                       >
-                        <h5 className="font-bold text-green-800 mb-2">{habit.habit}</h5>
-                        <p className="text-green-700 text-sm mb-3">{habit.why}</p>
+                        <h5 className="font-bold text-green-800 mb-1 sm:mb-2 text-sm sm:text-base">{habit.habit}</h5>
+                        <p className="text-green-700 text-xs sm:text-sm mb-2 sm:mb-3">{habit.why}</p>
                         <div className="flex items-center gap-2 text-green-600 text-xs">
-                          <Icon name="Clock" className="w-4 h-4" />
+                          <Icon name="Clock" className="w-3 h-3 sm:w-4 sm:h-4" />
                           <span className="font-medium">{habit.when}</span>
                         </div>
                       </div>
@@ -666,58 +670,58 @@ export default function ResultsPage() {
 
                 {/* Mindset Shifts */}
                 <div>
-                  <h4 className="text-xl font-bold text-stone-900 mb-4 flex items-center gap-2">
-                    <Icon name="Brain" className="w-5 h-5 text-primary" />
+                  <h4 className="text-lg sm:text-xl font-bold text-stone-900 mb-3 sm:mb-4 flex items-center gap-2">
+                    <Icon name="Brain" className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                     Mindset Shifts
                   </h4>
-                  <div className="space-y-4">
+                  <div className="space-y-3 sm:space-y-4">
                     {aiSuggestions.mindsetShifts.map((shift, idx) => (
                       <div
                         key={idx}
-                        className="bg-white rounded-xl p-5 border border-stone-200"
+                        className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-5 border border-stone-200"
                       >
-                        <div className="flex items-center gap-4 mb-3">
-                          <div className="flex-1 bg-red-50 rounded-lg p-3 text-center">
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4 mb-3">
+                          <div className="flex-1 bg-red-50 rounded-lg p-2 sm:p-3 text-center">
                             <p className="text-xs text-red-500 uppercase mb-1">From</p>
-                            <p className="text-red-700 font-medium text-sm">&quot;{shift.from}&quot;</p>
+                            <p className="text-red-700 font-medium text-xs sm:text-sm">&quot;{shift.from}&quot;</p>
                           </div>
-                          <Icon name="ArrowRight" className="w-6 h-6 text-stone-400 flex-shrink-0" />
-                          <div className="flex-1 bg-green-50 rounded-lg p-3 text-center">
+                          <Icon name="ArrowRight" className="w-5 h-5 sm:w-6 sm:h-6 text-stone-400 flex-shrink-0 self-center rotate-90 sm:rotate-0" />
+                          <div className="flex-1 bg-green-50 rounded-lg p-2 sm:p-3 text-center">
                             <p className="text-xs text-green-500 uppercase mb-1">To</p>
-                            <p className="text-green-700 font-medium text-sm">&quot;{shift.to}&quot;</p>
+                            <p className="text-green-700 font-medium text-xs sm:text-sm">&quot;{shift.to}&quot;</p>
                           </div>
                         </div>
-                        <p className="text-stone-600 text-sm">{shift.explanation}</p>
+                        <p className="text-stone-600 text-xs sm:text-sm">{shift.explanation}</p>
                       </div>
                     ))}
                   </div>
                 </div>
 
                 {/* Weekly Goal */}
-                <div className="bg-gradient-to-br from-primary to-amber-600 rounded-2xl p-6 text-white">
-                  <h4 className="text-xl font-bold mb-4 flex items-center gap-2">
-                    <Icon name="Target" className="w-5 h-5" />
+                <div className="bg-gradient-to-br from-primary to-amber-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white">
+                  <h4 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 flex items-center gap-2">
+                    <Icon name="Target" className="w-4 h-4 sm:w-5 sm:h-5" />
                     This Week&apos;s Goal
                   </h4>
-                  <div className="bg-white/10 rounded-xl p-5 mb-4">
-                    <p className="text-lg font-medium">{aiSuggestions.weeklyGoal.goal}</p>
+                  <div className="bg-white/10 rounded-lg sm:rounded-xl p-4 sm:p-5 mb-3 sm:mb-4">
+                    <p className="text-sm sm:text-lg font-medium">{aiSuggestions.weeklyGoal.goal}</p>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-white/10 rounded-lg p-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    <div className="bg-white/10 rounded-lg p-3 sm:p-4">
                       <p className="text-xs text-white/70 uppercase mb-1">How to Measure</p>
-                      <p className="text-sm">{aiSuggestions.weeklyGoal.metric}</p>
+                      <p className="text-xs sm:text-sm">{aiSuggestions.weeklyGoal.metric}</p>
                     </div>
-                    <div className="bg-white/10 rounded-lg p-4">
+                    <div className="bg-white/10 rounded-lg p-3 sm:p-4">
                       <p className="text-xs text-white/70 uppercase mb-1">Reward Yourself</p>
-                      <p className="text-sm">{aiSuggestions.weeklyGoal.reward}</p>
+                      <p className="text-xs sm:text-sm">{aiSuggestions.weeklyGoal.reward}</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Encouragement */}
-                <div className="bg-stone-100 rounded-2xl p-6 text-center border border-stone-200">
-                  <Icon name="Heart" className="w-8 h-8 text-primary mx-auto mb-3" />
-                  <p className="text-stone-700 text-lg leading-relaxed italic">
+                <div className="bg-stone-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center border border-stone-200">
+                  <Icon name="Heart" className="w-6 h-6 sm:w-8 sm:h-8 text-primary mx-auto mb-2 sm:mb-3" />
+                  <p className="text-stone-700 text-sm sm:text-lg leading-relaxed italic">
                     &quot;{aiSuggestions.encouragement}&quot;
                   </p>
                 </div>
@@ -728,7 +732,8 @@ export default function ResultsPage() {
                     onPress={loadAISuggestions}
                     variant="bordered"
                     className="border-primary text-primary"
-                    startContent={<Icon name="RefreshCw" className="w-4 h-4" />}
+                    size="sm"
+                    startContent={<Icon name="RefreshCw" className="w-3 h-3 sm:w-4 sm:h-4" />}
                   >
                     Get New Suggestions
                   </Button>
@@ -738,12 +743,12 @@ export default function ResultsPage() {
 
             {/* CTA if no suggestions yet */}
             {!aiSuggestions && !isLoadingAI && !aiError && (
-              <div className="bg-white rounded-2xl p-8 text-center border border-stone-200">
-                <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Icon name="Sparkles" className="w-8 h-8 text-amber-600" />
+              <div className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center border border-stone-200">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icon name="Sparkles" className="w-6 h-6 sm:w-8 sm:h-8 text-amber-600" />
                 </div>
-                <h4 className="text-xl font-bold text-stone-900 mb-2">Ready for Personalized Guidance?</h4>
-                <p className="text-stone-600 mb-6 max-w-md mx-auto">
+                <h4 className="text-lg sm:text-xl font-bold text-stone-900 mb-2">Ready for Personalized Guidance?</h4>
+                <p className="text-stone-600 mb-4 sm:mb-6 max-w-md mx-auto text-sm sm:text-base">
                   Our AI will analyze your assessment results and create a custom action plan 
                   tailored to your specific patterns and challenges.
                 </p>
@@ -751,8 +756,8 @@ export default function ResultsPage() {
                   onPress={loadAISuggestions}
                   color="warning"
                   className="bg-primary text-white font-bold"
-                  size="lg"
-                  startContent={<Icon name="Sparkles" className="w-5 h-5" />}
+                  size="md"
+                  startContent={<Icon name="Sparkles" className="w-4 h-4 sm:w-5 sm:h-5" />}
                 >
                   Generate AI Suggestions
                 </Button>
@@ -762,13 +767,13 @@ export default function ResultsPage() {
         )}
 
         {/* Action buttons */}
-        <div className="mt-16 flex flex-wrap justify-center gap-6">
+        <div className="mt-10 sm:mt-16 flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-6">
           <Button
             as={Link}
             href="/assessment"
             variant="bordered"
             className="font-bold border-stone-200 text-stone-600 hover:border-primary hover:text-primary"
-            size="lg"
+            size="md"
           >
             Retake Assessment
           </Button>
@@ -776,24 +781,24 @@ export default function ResultsPage() {
             as={Link}
             href="/journal"
             className="bg-primary text-white font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40"
-            size="lg"
-            startContent={<Icon name="BookOpen" className="w-5 h-5" />}
+            size="md"
+            startContent={<Icon name="BookOpen" className="w-4 h-4 sm:w-5 sm:h-5" />}
           >
             Start Journaling
           </Button>
         </div>
 
         {/* Journal CTA */}
-        <div className="mt-12 bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-8 border border-amber-200">
-          <div className="flex flex-col md:flex-row items-center gap-6">
-            <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-              <Icon name="BookOpen" className="w-10 h-10 text-primary" />
+        <div className="mt-8 sm:mt-12 bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-amber-200">
+          <div className="flex flex-col items-center text-center md:flex-row md:text-left gap-4 sm:gap-6">
+            <div className="w-14 h-14 sm:w-20 sm:h-20 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+              <Icon name="BookOpen" className="w-7 h-7 sm:w-10 sm:h-10 text-primary" />
             </div>
-            <div className="flex-1 text-center md:text-left">
-              <h3 className="text-xl font-bold text-stone-800 mb-2">
+            <div className="flex-1">
+              <h3 className="text-lg sm:text-xl font-bold text-stone-800 mb-1 sm:mb-2">
                 Go Deeper with Your Personal Journal
               </h3>
-              <p className="text-stone-600">
+              <p className="text-stone-600 text-sm sm:text-base">
                 Track your daily scrolling experiences and get AI-powered insights about your emotional patterns, 
                 triggers, and progress over time. Writing helps build awareness—your first step to change.
               </p>
@@ -802,8 +807,8 @@ export default function ResultsPage() {
               as={Link}
               href="/journal"
               color="warning"
-              className="bg-primary text-white font-bold px-6"
-              size="lg"
+              className="bg-primary text-white font-bold px-4 sm:px-6"
+              size="md"
             >
               Open Journal
             </Button>

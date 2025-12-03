@@ -1,15 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon } from "@/components/ui/Icon";
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  Link,
-} from "@heroui/react";
 
 interface HeaderProps {
   variant?: "floating" | "sticky";
@@ -18,14 +12,23 @@ interface HeaderProps {
 
 export function Header({ variant = "floating", transparent = false }: HeaderProps) {
   const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const isActive = (path: string) => pathname === path;
+
+  const navItems = [
+    { href: "/", label: "Home", mobileOnly: true },
+    { href: "/assessment", label: "Assessment" },
+    { href: "/journal", label: "Journal" },
+    { href: "/dashboard", label: "Dashboard" },
+    { href: "/results", label: "Results" },
+  ];
 
   if (variant === "sticky") {
     return (
       <header className={`border-b border-stone-200 ${transparent ? 'bg-white/80 backdrop-blur-sm' : 'bg-white'} sticky top-0 z-50`}>
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <NextLink href="/" className="flex items-center gap-2 group">
+          <NextLink href="/" className="flex items-center gap-2 group cursor-pointer">
             <Icon
               name="Smartphone"
               className="w-6 h-6 text-primary group-hover:scale-110 transition-transform"
@@ -34,119 +37,123 @@ export function Header({ variant = "floating", transparent = false }: HeaderProp
               Doomscroll Check
             </span>
           </NextLink>
-          <nav className="flex items-center gap-4">
-            <NextLink
-              href="/assessment"
-              className={`text-sm font-medium px-3 py-1.5 rounded-lg transition-colors ${
-                isActive('/assessment')
-                  ? 'text-primary bg-primary/10'
-                  : 'text-stone-600 hover:text-primary hover:bg-primary/5'
-              }`}
-            >
-              Assessment
-            </NextLink>
-            <NextLink
-              href="/journal"
-              className={`text-sm font-medium px-3 py-1.5 rounded-lg transition-colors ${
-                isActive('/journal')
-                  ? 'text-primary bg-primary/10'
-                  : 'text-stone-600 hover:text-primary hover:bg-primary/5'
-              }`}
-            >
-              Journal
-            </NextLink>
-            <NextLink
-              href="/dashboard"
-              className={`text-sm font-medium px-3 py-1.5 rounded-lg transition-colors ${
-                isActive('/dashboard')
-                  ? 'text-primary bg-primary/10'
-                  : 'text-stone-600 hover:text-primary hover:bg-primary/5'
-              }`}
-            >
-              Dashboard
-            </NextLink>
+          
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-4">
+            {navItems.filter(item => !item.mobileOnly).map((item) => (
+              <NextLink
+                key={item.href}
+                href={item.href}
+                className={`text-sm font-medium px-3 py-1.5 rounded-lg transition-colors ${
+                  isActive(item.href)
+                    ? 'text-primary bg-primary/10'
+                    : 'text-stone-600 hover:text-primary hover:bg-primary/5'
+                }`}
+              >
+                {item.label}
+              </NextLink>
+            ))}
           </nav>
+
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden p-2 rounded-lg hover:bg-stone-100 transition-colors"
+            aria-label="Toggle menu"
+          >
+            <Icon name={isMenuOpen ? "X" : "Menu"} className="w-6 h-6 text-stone-600" />
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden border-t border-stone-200 bg-white">
+            <nav className="flex flex-col p-4 gap-2">
+              {navItems.map((item) => (
+                <NextLink
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`text-sm font-medium px-4 py-3 rounded-lg transition-colors ${
+                    isActive(item.href)
+                      ? 'text-primary bg-primary/10'
+                      : 'text-stone-600 hover:text-primary hover:bg-primary/5'
+                  }`}
+                >
+                  {item.label}
+                </NextLink>
+              ))}
+            </nav>
+          </div>
+        )}
       </header>
     );
   }
 
   // Floating variant (default)
   return (
-    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[90vw] max-w-4xl px-4">
-      <Navbar
-        className="bg-white/60 backdrop-blur-xl backdrop-saturate-150 border border-white/20 rounded-2xl shadow-lg shadow-black/5 px-6 py-2"
-        classNames={{
-          wrapper: "px-4 gap-8 min-h-0 h-auto justify-between w-full",
-          item: "data-[active=true]:text-primary",
-        }}
-      >
-        <NavbarBrand>
-          <NextLink href="/" className="flex items-center gap-2 group">
+    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[100] w-[95vw] md:w-[90vw] max-w-4xl px-2 md:px-4">
+      <div className="bg-white/80 backdrop-blur-xl backdrop-saturate-150 border border-white/20 rounded-2xl shadow-lg shadow-black/5 px-4 md:px-6 py-3">
+        <div className="flex items-center justify-between">
+          <NextLink href="/" className="flex items-center gap-2 group cursor-pointer">
             <Icon
               name="Smartphone"
               className="w-5 h-5 text-primary group-hover:scale-110 transition-transform"
             />
-            <span className="font-bold text-base text-stone-800 tracking-tight group-hover:text-primary transition-colors">
+            <span className="font-bold text-sm md:text-base text-stone-800 tracking-tight group-hover:text-primary transition-colors">
               Doomscroll Check
             </span>
           </NextLink>
-        </NavbarBrand>
-        <NavbarContent justify="end" className="gap-6">
-          <NavbarItem isActive={isActive('/assessment')}>
-            <Link
-              as={NextLink}
-              href="/assessment"
-              className={`font-medium text-sm px-3 py-1.5 rounded-lg transition-colors ${
-                isActive('/assessment')
-                  ? 'text-primary bg-primary/10'
-                  : 'text-stone-600 hover:text-primary hover:bg-primary/5'
-              }`}
-            >
-              Assessment
-            </Link>
-          </NavbarItem>
-          <NavbarItem isActive={isActive('/journal')}>
-            <Link
-              as={NextLink}
-              href="/journal"
-              className={`font-medium text-sm px-3 py-1.5 rounded-lg transition-colors ${
-                isActive('/journal')
-                  ? 'text-primary bg-primary/10'
-                  : 'text-stone-600 hover:text-primary hover:bg-primary/5'
-              }`}
-            >
-              Journal
-            </Link>
-          </NavbarItem>
-          <NavbarItem isActive={isActive('/dashboard')}>
-            <Link
-              as={NextLink}
-              href="/dashboard"
-              className={`font-medium text-sm px-3 py-1.5 rounded-lg transition-colors ${
-                isActive('/dashboard')
-                  ? 'text-primary bg-primary/10'
-                  : 'text-stone-600 hover:text-primary hover:bg-primary/5'
-              }`}
-            >
-              Dashboard
-            </Link>
-          </NavbarItem>
-          <NavbarItem isActive={isActive('/results')}>
-            <Link
-              as={NextLink}
-              href="/results"
-              className={`font-medium text-sm px-3 py-1.5 rounded-lg transition-colors ${
-                isActive('/results')
-                  ? 'text-primary bg-primary/10'
-                  : 'text-stone-600 hover:text-primary hover:bg-primary/5'
-              }`}
-            >
-              Results
-            </Link>
-          </NavbarItem>
-        </NavbarContent>
-      </Navbar>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-2">
+            {navItems.filter(item => !item.mobileOnly).map((item) => (
+              <NextLink
+                key={item.href}
+                href={item.href}
+                className={`font-medium text-sm px-3 py-1.5 rounded-lg transition-colors ${
+                  isActive(item.href)
+                    ? 'text-primary bg-primary/10'
+                    : 'text-stone-600 hover:text-primary hover:bg-primary/5'
+                }`}
+              >
+                {item.label}
+              </NextLink>
+            ))}
+          </nav>
+
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden p-2 rounded-lg hover:bg-stone-100/50 transition-colors"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          >
+            <Icon name={isMenuOpen ? "X" : "Menu"} className="w-5 h-5 text-stone-600" />
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu Dropdown */}
+      {isMenuOpen && (
+        <div className="md:hidden mt-2 bg-white/95 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20 overflow-hidden">
+          <nav className="flex flex-col p-3 gap-1">
+            {navItems.map((item) => (
+              <NextLink
+                key={item.href}
+                href={item.href}
+                onClick={() => setIsMenuOpen(false)}
+                className={`font-medium text-base px-4 py-3 rounded-lg transition-colors ${
+                  isActive(item.href)
+                    ? 'text-primary bg-primary/10'
+                    : 'text-stone-600 hover:text-primary hover:bg-primary/5'
+                }`}
+              >
+                {item.label}
+              </NextLink>
+            ))}
+          </nav>
+        </div>
+      )}
     </div>
   );
 }

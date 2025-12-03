@@ -109,20 +109,8 @@ export default function CDFDemoPage() {
 
         {/* Explanation */}
         <div className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-lg mt-6">
-          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
-            Understanding the CDF
-          </h2>
           
           <div className="space-y-4 text-sm text-gray-600 dark:text-gray-400">
-            <p>
-              The <strong>Cumulative Distribution Function (CDF)</strong> shows the probability 
-              that a randomly selected participant from the research sample has a score 
-              less than or equal to any given value.
-            </p>
-            
-            <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg font-mono text-center">
-              CDF(x) = P(X ≤ x) = 0.5 × (1 + erf((x - μ) / (σ × √2)))
-            </div>
             
             <p>
               <strong>How to read this chart:</strong>

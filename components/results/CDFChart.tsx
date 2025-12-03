@@ -365,9 +365,6 @@ export function CDFChart({
                 : ` This means you score lower than ${(100 - userPercentile).toFixed(0)}% of the research sample (n=401).`
             )}
           </p>
-          <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
-            Formula: CDF(x) = 0.5 × (1 + erf((x - μ) / (σ × √2))) where μ={mean}, σ={sd}
-          </p>
         </div>
       )}
     </div>
