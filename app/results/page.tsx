@@ -800,7 +800,7 @@ export default function ResultsPage() {
               </h3>
               <p className="text-stone-600 text-sm sm:text-base">
                 Track your daily scrolling experiences and get AI-powered insights about your emotional patterns, 
-                triggers, and progress over time. Writing helps build awareness—your first step to change.
+                triggers, and progress over time. Writing helps build awareness, your first step to change.
               </p>
             </div>
             <Button

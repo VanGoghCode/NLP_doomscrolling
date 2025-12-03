@@ -356,7 +356,7 @@ export function CDFChart({
             {isAwareness ? (
               // For awareness: high score = high awareness = GOOD
               userPercentile > 50 
-                ? ` This means you have higher awareness than ${userPercentile.toFixed(0)}% of the research sample — this is a protective factor!`
+                ? ` This means you have higher awareness than ${userPercentile.toFixed(0)}% of the research sample, this is a protective factor!`
                 : ` This means you have lower awareness than ${(100 - userPercentile).toFixed(0)}% of the research sample. Building awareness can help manage doomscrolling.`
             ) : (
               // For other constructs: high score = high risk = BAD
