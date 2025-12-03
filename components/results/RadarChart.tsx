@@ -9,9 +9,9 @@ interface RadarChartProps {
   size?: number;
 }
 
-export function RadarChart({ dimensionScores, size = 300 }: RadarChartProps) {
+export function RadarChart({ dimensionScores, size = 320 }: RadarChartProps) {
   const center = size / 2;
-  const maxRadius = (size / 2) - 40;
+  const maxRadius = (size / 2) - 60; // More space for labels
 
   const dimensions = USER_DIMENSIONS;
   const numDimensions = dimensions.length;
@@ -47,9 +47,19 @@ export function RadarChart({ dimensionScores, size = 300 }: RadarChartProps) {
     const angle = i * angleStep - Math.PI / 2;
     const x2 = center + maxRadius * Math.cos(angle);
     const y2 = center + maxRadius * Math.sin(angle);
-    const labelX = center + (maxRadius + 25) * Math.cos(angle);
-    const labelY = center + (maxRadius + 25) * Math.sin(angle);
-    return { x1: center, y1: center, x2, y2, labelX, labelY, name: dim.name.split(" ")[0] };
+    const labelX = center + (maxRadius + 35) * Math.cos(angle);
+    const labelY = center + (maxRadius + 35) * Math.sin(angle);
+    
+    // Use short labels for the radar chart
+    const shortLabels: Record<string, string> = {
+      'behavioral_control': 'Behavioral',
+      'emotional_wellbeing': 'Emotional',
+      'time_management': 'Time',
+      'daily_functioning': 'Daily Life',
+      'self_awareness': 'Awareness'
+    };
+    
+    return { x1: center, y1: center, x2, y2, labelX, labelY, name: shortLabels[dim.id] || dim.name };
   });
 
   // Color based on highest score
@@ -58,7 +68,12 @@ export function RadarChart({ dimensionScores, size = 300 }: RadarChartProps) {
 
   return (
     <div className="flex flex-col items-center">
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+      <svg 
+        width={size} 
+        height={size} 
+        viewBox={`-20 -20 ${size + 40} ${size + 40}`}
+        className="overflow-visible"
+      >
         {/* Grid circles */}
         {gridCircles.map(({ radius }, i) => (
           <circle
